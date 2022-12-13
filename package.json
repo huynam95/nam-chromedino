@@ -2,7 +2,7 @@
   "name": "nam-chromedino",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "main": "index",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html --dist-dir ./dist"
