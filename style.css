@@ -53,33 +53,6 @@ body {
   left: calc(var(--left) * 1%);
 }
 
-.score {
-  position: absolute;
-  font-size: 150%;
-  font-family: pixel;
-  top: 20%;
-  right: 1%;
-  transform: translate(0, -50%);
-}
-
-.high-score {
-  position: absolute;
-  font-size: 150%;
-  font-family: pixel;
-  top: 20%;
-  right: 8%;
-  transform: translate(0, -50%);
-}
-
-.high-score2 {
-  position: absolute;
-  font-size: 150%;
-  font-family: pixel2;
-  top: 20%;
-  right: 14%;
-  transform: translate(0, -50%);
-}
-
 .start-message {
   position: absolute;
   font-size: 150%;
@@ -91,4 +64,71 @@ body {
 
 .hidden {
   display: none;
+}
+
+.flex {
+  display: flex;
+  position: absolute;
+  top: 20%;
+  right: 1%;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.score {
+  font-size: 150%;
+  font-family: pixel;
+  transform: translate(0, -50%);
+}
+
+.high-score {
+  font-size: 150%;
+  font-family: pixel;
+  transform: translate(0, -50%);
+}
+
+.high-score2 {
+  font-size: 150%;
+  font-family: pixel2;
+  transform: translate(0, -50%);
+}
+
+.music-button {
+  height: 24px;
+  width: 24px;
+  top: 20%;
+  right: 18%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.music-button:hover {
+  opacity: 0.6;
+}
+
+.no-music-button {
+  height: 24px;
+  width: 24px;
+  top: 20%;
+  right: 18%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.no-music-button:hover {
+  opacity: 0.6;
+}
+
+.play-pause {
+  height: 24px;
+  width: 24px;
+  top: 20%;
+  right: 21%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.play-pause:hover {
+  opacity: 0.6;
 }

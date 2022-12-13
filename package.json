@@ -1,5 +1,23 @@
 {
-  "devDependencies": {
-    "parcel": "^2.7.0"
+  "name": "nam-chromedino",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huynam95/nam-chromedino.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/huynam95/nam-chromedino/issues"
+  },
+  "homepage": "https://github.com/huynam95/nam-chromedino#readme",
+  "dependencies": {
+    "parcel": "^2.8.1"
   }
 }

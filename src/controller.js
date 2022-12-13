@@ -11,10 +11,28 @@ import ground from "./view/ground.js";
 import dino from "./view/dino.js";
 import score from "./view/score.js";
 import cactus from "./view/cactus.js";
+import jumpSound from "url:./sound/jump.wav";
+// import dieSound from "url:./sound/die.wav";
+import backgroundSound from "url:./sound/background.mp3";
+import dieSound from "url:./sound/lose.mp3";
 
 const worldElement = document.querySelector(".world");
 const messageElement = document.querySelector(".start-message");
-let paused;
+
+const playElement = document.querySelector(".play-pause");
+
+const musicElement = document.querySelector(".music");
+const musicOn = document.querySelector(".music-button");
+const musicOff = document.querySelector(".no-music-button");
+
+let paused = 0;
+let volume = 1;
+
+let jumpSoundDino = new Audio(jumpSound);
+let backgroundSoundDino = new Audio(backgroundSound);
+backgroundSoundDino.volume = 0.5;
+let dieSoundDino = new Audio(dieSound);
+dieSoundDino.volume = 0.1;
 
 const checkCol = function () {
   const dinoDim = dino.getDimDino();
@@ -34,6 +52,8 @@ const jump = function (e) {
   if (e.code !== "Space" || !dino.RUNNING) return;
   dino.JUMP_SPEED = JUMP_SPEED;
   dino.RUNNING = false;
+
+  jumpSoundDino.play();
 };
 
 const resizeWorld = function () {
@@ -52,8 +72,8 @@ const resizeWorld = function () {
 };
 
 const updateWorld = function (time) {
-  if (paused) {
-    paused = false;
+  if (paused === 1) {
+    paused = 0;
     messageElement.classList.remove("hidden");
     setTimeout(() => {
       init2();
@@ -82,6 +102,10 @@ const updateWorld = function (time) {
 
   // Check collision
   if (checkCol()) {
+    dieSoundDino.play();
+    backgroundSoundDino.pause();
+    backgroundSoundDino.currentTime = 0;
+
     dino.dinoLoseImg();
     messageElement.classList.remove("hidden");
     if (model.state.score > model.state.highScore)
@@ -90,7 +114,7 @@ const updateWorld = function (time) {
 
     setTimeout(() => {
       init();
-    }, 100);
+    }, 2500);
     return;
   }
   // Check collision
@@ -100,13 +124,17 @@ const updateWorld = function (time) {
 };
 
 const handleVisibilityChange = function () {
-  console.log(paused);
-  if (document.hidden) paused = true;
+  if (document.hidden) paused = 1;
 };
 
 const start = function () {
   model.state.score = 0;
   model.state.lastTime = null;
+  backgroundSoundDino.volume = 0.5;
+  jumpSoundDino.volume = 1;
+  dieSoundDino.volume = 0.1;
+
+  backgroundSoundDino.play();
 
   ground.resetGround();
   cactus.resetCactus();
@@ -119,16 +147,45 @@ const start = function () {
   window.requestAnimationFrame(updateWorld);
 };
 
+const music = function () {
+  volume = 1 - volume;
+  if (volume === 0) {
+    backgroundSoundDino.volume = 0;
+    jumpSoundDino.volume = 0;
+    dieSoundDino.volume = 0;
+  }
+  if (volume === 1) {
+    backgroundSoundDino.volume = 0.5;
+    jumpSoundDino.volume = 1;
+    dieSoundDino.volume = 0.1;
+  }
+  musicOn.classList.toggle("hidden");
+  musicOff.classList.toggle("hidden");
+};
+
+const play = function () {
+  paused = 1;
+  backgroundSoundDino.volume = 0;
+  jumpSoundDino.volume = 0;
+  dieSoundDino.volume = 0;
+};
+
 const init = function () {
   resizeWorld();
   score.updateHighScore(model.state.highScore);
 
+  musicElement.addEventListener("click", music);
+  playElement.addEventListener("click", play);
   window.addEventListener("resize", resizeWorld);
   window.addEventListener("keydown", start, { once: true });
 };
 
 const start2 = function () {
   model.state.lastTime = null;
+  backgroundSoundDino.volume = 0.5;
+  jumpSoundDino.volume = 1;
+  dieSoundDino.volume = 0.1;
+
   messageElement.classList.add("hidden");
 
   window.addEventListener("keydown", jump);
@@ -138,8 +195,11 @@ const start2 = function () {
 
 const init2 = function () {
   score.updateHighScore(model.state.highScore);
+
   resizeWorld();
 
+  musicElement.addEventListener("click", music);
+  playElement.addEventListener("click", play);
   window.addEventListener("resize", resizeWorld);
   window.addEventListener("keydown", start2, { once: true });
 };
